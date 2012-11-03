@@ -20,7 +20,7 @@ $('#main_menu')
 })
 .click(function(){
     // Hijack link functionality
-    Pages.destroy();
+    Pages.each('destroy');
     Pages.getPageByName($(this).attr('data-nav')).populate();
 });
 
@@ -55,26 +55,31 @@ var Pages = new _Pages({
 /* HOME */
 Pages.addPage({
     name: 'home',
+    listHomes: function(){
+        // Example of how you can use a function you might need in all your main functions. This could be just about anything you can think of
+        // and you can reference it from all your init/populate/destroy functions as this.listHomes
+        return "There are all types of homes: ranches, castles, farms, caves, tents, TPs - you name it!";
+    },
     init: function(){
         // this.name is not in scope. For some reason, console.log(this) is logging window
-        // any ideas?
-        console.log("home.init");
-        console.log(this.name);
-        console.log(this);
+        // any ideas? /SOLVED.
+        //console.log("home.init");
+        //console.log(this.name);
+        //console.log(this);
         var container = $('<div />');
         var title = $('<h1 />').html('The House Your Father Built');
         var content = $('<p />')
         .html('This is the house your father built with his rusty tools and his dirty hands. Welcome! Okay, so, maybe it could have been better - but, hey, he was drunk and he only had a hammer!');
 
-        container.append(title).append(content);
+        container.append(title).append(content).append(this.listHomes);
 
-        pageElements['home'].append(container);
+        pageElements[this.name].append(container);
     },
     populate: function(){
-        pageElements['home'].fadeIn(300);
+        pageElements[this.name].fadeIn(300);
     },
     destroy: function(){
-        pageElements['home'].fadeOut(100);
+        pageElements[this.name].fadeOut(100);
     }
 });
 
@@ -100,11 +105,11 @@ Pages.addPage({
 
         container.append(title).append(content);
 
-        pageElements['about'].append(container).fadeIn(300);
+        pageElements[this.name].append(container).fadeIn(300);
     },
     destroy: function(){
         // Destroy HTML every time because it might be dynamic content
-        pageElements['about'].fadeOut(100).empty();
+        pageElements[this.name].fadeOut(100).empty();
     }
 });
 
@@ -125,13 +130,13 @@ Pages.addPage({
 
         container.append(title).append(content);
 
-        pageElements['contact'].append(container);
+        pageElements[this.name].append(container);
     },
     populate: function(){
-        pageElements['contact'].fadeIn(300);
+        pageElements[this.name].fadeIn(300);
     },
     destroy: function(){
-        pageElements['contact'].fadeOut(100);
+        pageElements[this.name].fadeOut(100);
     }
 });
 
@@ -139,7 +144,7 @@ Pages.addPage({
 //console.log("Total Pages: " + Pages.getTotal());
 
 // Init all pages
-Pages.init();
+Pages.each('init');
 
 // Show the home page by default
 Pages.getPageByName('home').populate();

@@ -40,6 +40,7 @@ function _Pages(config){
                         config.destroy();
 			return this;
 		}
+                // Loop thru config looking for functions to populate this object with?               
 	}
 	
 	// Shared funtions or wrapper functions - add general init/populate
@@ -61,39 +62,36 @@ function _Pages(config){
 		}
 	};
 	
-	return {
-		getTotal: function(){
-			return pageArr.length;
-		},
-		addPage: function(obj){
-			if(typeof obj === 'object'){
-				//console.log("Pages: adding page '" + obj.name + "' to Pages interal list...");
-				pageArr.push(new Page(obj));
-			}
-		},
-		getPageByName: function(sName){
-			// Find a specific Page in the Pages array by name
-			var len = pageArr.length;
-			while(len){
-				len--;
-				if(pageArr[len].name == sName){
-					return pageArr[len];
-				}
-			}
-		},
-		destroy: function(){	// Destroy all
-			var len = pageArr.length;
-			while(len){
-				len--;
-				pageArr[len].destroy();
-			}
-		},
-		init: function(){	// init all
-			var len = pageArr.length;
-			while(len){
-				len--;
-				pageArr[len].init();
-			}
-		}
-	}
+	// PUBLIC API
+        this.getTotal = function(){
+                return pageArr.length;
+        };
+        this.addPage = function(obj){
+                if(typeof obj === 'object'){
+                        //console.log("Pages: adding page '" + obj.name + "' to Pages interal list...");
+                        pageArr.push(new Page(obj));
+                }
+        };
+        this.getPageByName = function(sName){
+                // Find a specific Page in the Pages array by name
+                var len = pageArr.length;
+                while(len){
+                        len--;
+                        if(pageArr[len].name == sName){
+                                return pageArr[len];
+                        }
+                }
+        };
+        this.each = function(fn){
+            // Call a function on all pages. If one page doesn't have the function, it won't break.
+            var len = pageArr.length;
+            while(len){
+                len--;
+                if(pageArr[len][fn] !== undefined){
+                    pageArr[len][fn].call(pageArr[len]);
+                }
+            }
+        };
+
+        return this;
 }
