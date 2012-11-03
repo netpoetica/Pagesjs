@@ -18,7 +18,7 @@ function _Pages(config){
 	var pageArr = [];					// Holds all pages used in program
 	
 	// Individual Page object
-	function Page(config){
+	function Page(config){  // same variable name as Pages... shouldn't cause any issue though.
 		// Page specific functions. Indivudal things like maybe
 		// animations or various event listeners being put on, etc.
 		// These functions are chainable, so you could call PageName.init().populate() if
@@ -26,38 +26,38 @@ function _Pages(config){
 		this.name = config.name;
 		this.init = function(){
 			console.log("Instantiating Page '" + this.name + "'"); 
-			Page.prototype.init(config.init);
+			Page.prototype.init();
+                        config.init();
 			return this;
 		}
 		this.populate = function(){
-			Page.prototype.populate(config.populate);
+			Page.prototype.populate();
+                        config.populate();
 			return this;
 		}
 		this.destroy = function(){
-			Page.prototype.destroy(config.destroy);
+			Page.prototype.destroy();
+                        config.destroy();
 			return this;
 		}
-	};
+	}
 	
 	// Shared funtions or wrapper functions - add general init/populate
 	// details to these wrappers which then later call their individual
 	// functions.
 	Page.prototype = {
 		constructor: Page,
-		init: function(pageSpecificInit){
+		init: function(){
 			console.log("Initializing Page...");
 			config.init();		// Function passed into Pages object as a general purpose init
-			pageSpecificInit();
 		},
-		populate: function(pageSpecificPopulate){
+		populate: function(){
 			console.log("Populating Page...");
 			config.populate();
-			pageSpecificPopulate();
 		},
-		destroy: function(pageSpecificDestroy){
+		destroy: function(){
 			console.log("Destroying Page...");
 			config.destroy();
-			pageSpecificDestroy();
 		}
 	};
 	
@@ -96,4 +96,4 @@ function _Pages(config){
 			}
 		}
 	}
-};
+}
