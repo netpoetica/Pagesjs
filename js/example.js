@@ -61,11 +61,6 @@ Pages.addPage({
         return "There are all types of homes: ranches, castles, farms, caves, tents, TPs - you name it!";
     },
     init: function(){
-        // this.name is not in scope. For some reason, console.log(this) is logging window
-        // any ideas? /SOLVED.
-        //console.log("home.init");
-        //console.log(this.name);
-        //console.log(this);
         var container = $('<div />');
         var title = $('<h1 />').html('The House Your Father Built');
         var content = $('<p />')

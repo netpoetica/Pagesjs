@@ -39,8 +39,7 @@ function _Pages(config){
 			Page.prototype.destroy();
                         config.destroy();
 			return this;
-		}
-                // Loop thru config looking for functions to populate this object with?               
+		}             
 	}
 	
 	// Shared funtions or wrapper functions - add general init/populate
@@ -81,6 +80,7 @@ function _Pages(config){
                                 return pageArr[len];
                         }
                 }
+                return null;
         };
         this.each = function(fn){
             // Call a function on all pages. If one page doesn't have the function, it won't break.
